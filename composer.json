@@ -1,0 +1,55 @@
+{
+    "name": "sfolador/heidipay-saloon",
+    "description": "Integrate HeidiPay API in PHP with Saloon",
+    "keywords": [
+        "sfolador",
+        "heidipay",
+        "saloon"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Simone Folador",
+            "email": "sfolador@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "sammyjo20/saloon": "^2.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^7.9",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sfolador\\HeidiPaySaloon\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sfolador\\HeidiPaySaloon\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
