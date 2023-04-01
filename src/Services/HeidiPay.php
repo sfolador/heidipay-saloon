@@ -18,7 +18,6 @@ class HeidiPay
 
     private HeidiPayConnector $connector;
 
-
     private function __construct(public readonly string $apiUrl)
     {
         $this->connector = new HeidiPayConnector(apiUrl: $apiUrl);

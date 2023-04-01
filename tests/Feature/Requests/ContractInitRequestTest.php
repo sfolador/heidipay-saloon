@@ -1,6 +1,5 @@
 <?php
 
-
 use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
 use Sfolador\HeidiPaySaloon\Enum\AmountFormat;
 use Sfolador\HeidiPaySaloon\Models\Amount;
@@ -9,11 +8,10 @@ use Sfolador\HeidiPaySaloon\Models\Product;
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 use Sfolador\HeidiPaySaloon\Requests\ContractInitRequest;
 
-
 beforeEach(function () {
     $this->amount = new Amount(100, 'BRL', AmountFormat::MINOR_UNIT);
-    $this->customer =   new Customer(
-        email: "",title: "",firstname: "",lastname: "",dateOfBirth: "",contactNumber: "",companyName: "",residence: ""
+    $this->customer = new Customer(
+        email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
     );
 
     $this->webhooks = new Webhooks(
@@ -21,11 +19,11 @@ beforeEach(function () {
         failure: 'https://www.google.com',
         cancel: 'https://www.google.com',
         status: 'https://www.google.com',
-        mappingScheme: "default"
+        mappingScheme: 'default'
     );
-    $this->products = [ new Product(
+    $this->products = [new Product(
         sku: null,
-        name: "",
+        name: '',
         quantity: 1,
         price: '1.00',
         imageThumbnailUrl: null,
@@ -34,9 +32,7 @@ beforeEach(function () {
     )];
 
     $this->contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
-
 });
-
 
 /**
  * return return [
@@ -55,11 +51,8 @@ beforeEach(function () {
 ],
 'products' => array_map(fn (Product $product) => $product->toArray(), $this->dto->products),
 ];
- *
  */
-
-it('has a  body',function(){
-
+it('has a  body', function () {
     $merchantKey = 'merchant-key';
 
     $contractInitRequest = new ContractInitRequest($this->contractInitDto);
@@ -67,22 +60,20 @@ it('has a  body',function(){
     $body = $contractInitRequest->body()->all();
 
     $expectedKeys = [
-        'amount' ,
+        'amount',
         'amount_format',
         'customer_details',
         'redirect_urls',
         'webhooks',
-        'products'
+        'products',
     ];
-
 
     $keys = array_keys($body);
 
     expect($keys)->toBe($expectedKeys);
-
 });
 
-it('has a an endpoint',function(){
+it('has a an endpoint', function () {
     $contractInitRequest = new ContractInitRequest($this->contractInitDto);
 
     expect($contractInitRequest->resolveEndpoint())->toBe('/api/checkout/v1/init/');

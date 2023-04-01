@@ -1,19 +1,16 @@
 <?php
 
-
 /**
  *         public readonly string $success,
 public readonly string $failure,
 public readonly string $cancel,
 public readonly string $status,
 public readonly string $mappingScheme,
- *
  */
 
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 
-it('has a success url',function(){
-
+it('has a success url', function () {
     $success = 'https://www.example.com';
     $webhooks = new Webhooks(
         success: $success,
@@ -25,8 +22,7 @@ it('has a success url',function(){
     expect($webhooks->success)->toBe($success);
 });
 
-it('has a failure url',function(){
-
+it('has a failure url', function () {
     $failure = 'https://www.example.com';
     $webhooks = new Webhooks(
         success: 'https://www.google.com',
@@ -36,10 +32,9 @@ it('has a failure url',function(){
         mappingScheme: 'https://www.google.com',
     );
     expect($webhooks->failure)->toBe($failure);
-
 });
 
-it('has a cancel url',function(){
+it('has a cancel url', function () {
     $cancel = 'https://www.example.com';
     $webhooks = new Webhooks(
         success: 'https://www.google.com',
@@ -51,7 +46,7 @@ it('has a cancel url',function(){
     expect($webhooks->cancel)->toBe($cancel);
 });
 
-it('has a status url',function(){
+it('has a status url', function () {
     $status = 'https://www.example.com';
     $webhooks = new Webhooks(
         success: 'https://www.google.com',
@@ -63,8 +58,7 @@ it('has a status url',function(){
     expect($webhooks->status)->toBe($status);
 });
 
-it('has a mappingScheme',function(){
-
+it('has a mappingScheme', function () {
     $mappingScheme = 'default';
     $webhooks = new Webhooks(
         success: 'https://www.google.com',
@@ -74,10 +68,9 @@ it('has a mappingScheme',function(){
         mappingScheme: $mappingScheme
     );
     expect($webhooks->mappingScheme)->toBe($mappingScheme);
-
 });
 
-it('has a token',function(){
+it('has a token', function () {
     $success = 'https://www.example.com';
     $webhooks = new Webhooks(
         success: $success,
@@ -90,7 +83,6 @@ it('has a token',function(){
     $token = '123456789';
 
     $webhooks->setToken($token);
-
 
     expect($webhooks->token)->toBe($token);
 });

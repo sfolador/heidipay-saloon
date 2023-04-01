@@ -19,7 +19,7 @@ class Webhooks
         $this->token = '';
     }
 
-    public static function from(string $success, string $failure, string $cancel, string $status,string $mappingScheme): Webhooks
+    public static function from(string $success, string $failure, string $cancel, string $status, string $mappingScheme): Webhooks
     {
         return new self(
             success: $success,

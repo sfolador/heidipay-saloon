@@ -7,11 +7,10 @@ use Sfolador\HeidiPaySaloon\Models\Customer;
 use Sfolador\HeidiPaySaloon\Models\Product;
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 
-
 beforeEach(function () {
     $this->amount = new Amount(100, 'BRL', AmountFormat::MINOR_UNIT);
-    $this->customer =   new Customer(
-        email: "",title: "",firstname: "",lastname: "",dateOfBirth: "",contactNumber: "",companyName: "",residence: ""
+    $this->customer = new Customer(
+        email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
     );
 
     $this->webhooks = new Webhooks(
@@ -19,11 +18,11 @@ beforeEach(function () {
         failure: 'https://www.google.com',
         cancel: 'https://www.google.com',
         status: 'https://www.google.com',
-        mappingScheme: "default"
+        mappingScheme: 'default'
     );
-    $this->products = [ new Product(
+    $this->products = [new Product(
         sku: null,
-        name: "",
+        name: '',
         quantity: 1,
         price: '1.00',
         imageThumbnailUrl: null,
@@ -32,31 +31,25 @@ beforeEach(function () {
     )];
 });
 
-it('has a amount',function(){
-
+it('has a amount', function () {
     $contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
 
     expect($contractInitDto->amount)->toBe($this->amount);
 });
 
-it('has a customer',function(){
-
+it('has a customer', function () {
     $contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
 
     expect($contractInitDto->customer)->toBe($this->customer);
 });
 
-
-it('has webhooks',function(){
-
+it('has webhooks', function () {
     $contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
 
     expect($contractInitDto->webhooks)->toBe($this->webhooks);
 });
 
-
-it('has products',function(){
-
+it('has products', function () {
     $contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
 
     expect($contractInitDto->products)->toBe($this->products);

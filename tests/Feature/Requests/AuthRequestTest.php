@@ -1,11 +1,9 @@
 <?php
 
-
 use Sfolador\HeidiPaySaloon\Dto\AuthDto;
 use Sfolador\HeidiPaySaloon\Requests\AuthRequest;
 
-it('has a  body',function(){
-
+it('has a  body', function () {
     $merchantKey = 'merchant-key';
     $authDto = new AuthDto('merchant-key');
     $authRequest = new AuthRequest($authDto);
@@ -13,10 +11,9 @@ it('has a  body',function(){
     $body = $authRequest->body()->all();
 
     expect($body['merchant_key'])->toBe($merchantKey);
-
 });
 
-it('has a an endpoint',function(){
+it('has a an endpoint', function () {
     $authDto = new AuthDto('merchant-key');
     $authRequest = new AuthRequest($authDto);
 
