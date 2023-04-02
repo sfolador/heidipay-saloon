@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sfolador\HeidiPaySaloon\Models;
 
-class Product
+class CreditInitProduct
 {
     public function __construct(
         public readonly ?string $sku,
@@ -25,7 +25,7 @@ class Product
         ?string $imageThumbnailUrl,
         ?string $imageOriginalUrl,
         ?string $description
-    ): Product {
+    ): CreditInitProduct {
         return new self(
             sku: $sku,
             name: $name,

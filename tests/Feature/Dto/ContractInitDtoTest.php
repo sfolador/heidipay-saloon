@@ -3,8 +3,8 @@
 use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
 use Sfolador\HeidiPaySaloon\Enum\AmountFormat;
 use Sfolador\HeidiPaySaloon\Models\Amount;
+use Sfolador\HeidiPaySaloon\Models\CreditInitProduct;
 use Sfolador\HeidiPaySaloon\Models\Customer;
-use Sfolador\HeidiPaySaloon\Models\Product;
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 
 beforeEach(function () {
@@ -20,7 +20,7 @@ beforeEach(function () {
         status: 'https://www.google.com',
         mappingScheme: 'default'
     );
-    $this->products = [new Product(
+    $this->products = [new CreditInitProduct(
         sku: null,
         name: '',
         quantity: 1,
@@ -53,4 +53,18 @@ it('has products', function () {
     $contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
 
     expect($contractInitDto->products)->toBe($this->products);
+});
+
+it('can be instantiated statically', function () {
+    $contractInitDto = ContractInitDto::from(
+        amount: $this->amount,
+        customer: $this->customer,
+        webhooks: $this->webhooks,
+        products: $this->products
+    );
+
+    expect($contractInitDto->amount)->toBe($this->amount)
+        ->and($contractInitDto->customer)->toBe($this->customer)
+        ->and($contractInitDto->webhooks)->toBe($this->webhooks)
+        ->and($contractInitDto->products)->toBe($this->products);
 });

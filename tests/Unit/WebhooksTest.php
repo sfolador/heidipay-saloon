@@ -1,88 +1,71 @@
 <?php
 
-/**
- *         public readonly string $success,
-public readonly string $failure,
-public readonly string $cancel,
-public readonly string $status,
-public readonly string $mappingScheme,
- */
-
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 
-it('has a success url', function () {
-    $success = 'https://www.example.com';
-    $webhooks = new Webhooks(
-        success: $success,
-        failure: 'https://www.google.com',
-        cancel: 'https://www.google.com',
-        status: 'https://www.google.com',
-        mappingScheme: 'https://www.google.com',
+beforeEach(function () {
+    $this->url = 'https://www.example.com';
+
+    $this->webhooks = new Webhooks(
+        success: $this->url.'/success',
+        failure: $this->url.'/failure',
+        cancel: $this->url.'/cancel',
+        status: $this->url.'/status',
+        mappingScheme: 'default',
     );
-    expect($webhooks->success)->toBe($success);
+});
+
+it('has a success url', function () {
+    expect($this->webhooks->success)->toBe($this->url.'/success');
 });
 
 it('has a failure url', function () {
-    $failure = 'https://www.example.com';
-    $webhooks = new Webhooks(
-        success: 'https://www.google.com',
-        failure: $failure,
-        cancel: 'https://www.google.com',
-        status: 'https://www.google.com',
-        mappingScheme: 'https://www.google.com',
-    );
-    expect($webhooks->failure)->toBe($failure);
+    expect($this->webhooks->failure)->toBe($this->url.'/failure');
 });
 
 it('has a cancel url', function () {
-    $cancel = 'https://www.example.com';
-    $webhooks = new Webhooks(
-        success: 'https://www.google.com',
-        failure: 'https://www.google.com',
-        cancel: $cancel,
-        status: 'https://www.google.com',
-        mappingScheme: 'https://www.google.com',
-    );
-    expect($webhooks->cancel)->toBe($cancel);
+    expect($this->webhooks->cancel)->toBe($this->url.'/cancel');
 });
 
 it('has a status url', function () {
-    $status = 'https://www.example.com';
-    $webhooks = new Webhooks(
-        success: 'https://www.google.com',
-        failure: 'https://www.google.com',
-        cancel: 'https://www.google.com',
-        status: $status,
-        mappingScheme: 'https://www.google.com',
-    );
-    expect($webhooks->status)->toBe($status);
+    expect($this->webhooks->status)->toBe($this->url.'/status');
 });
 
 it('has a mappingScheme', function () {
-    $mappingScheme = 'default';
-    $webhooks = new Webhooks(
-        success: 'https://www.google.com',
-        failure: 'https://www.google.com',
-        cancel: 'https://www.google.com',
-        status: 'https://www.google.com',
-        mappingScheme: $mappingScheme
-    );
-    expect($webhooks->mappingScheme)->toBe($mappingScheme);
+    expect($this->webhooks->mappingScheme)->toBe('default');
 });
 
 it('has a token', function () {
-    $success = 'https://www.example.com';
-    $webhooks = new Webhooks(
-        success: $success,
-        failure: 'https://www.google.com',
-        cancel: 'https://www.google.com',
-        status: 'https://www.google.com',
-        mappingScheme: 'https://www.google.com',
+    $token = 'token';
+    $this->webhooks->setToken($token);
+
+    expect($this->webhooks->token)->toBe($token);
+});
+
+it('can be instantiated statically', function () {
+    $webhooks = Webhooks::from(
+        success: $this->url.'/success',
+        failure: $this->url.'/failure',
+        cancel: $this->url.'/cancel',
+        status: $this->url.'/status',
+        mappingScheme: 'default',
     );
 
-    $token = '123456789';
+    expect($webhooks->success)->toBe($this->url.'/success')
+        ->and($webhooks->failure)->toBe($this->url.'/failure')
+        ->and($webhooks->cancel)->toBe($this->url.'/cancel')
+        ->and($webhooks->status)->toBe($this->url.'/status')
+        ->and($webhooks->mappingScheme)->toBe('default');
+});
 
-    $webhooks->setToken($token);
+it('can be converted to an array', function () {
+    $token = 'token';
+    $this->webhooks->setToken($token);
+    $array = $this->webhooks->toArray();
 
-    expect($webhooks->token)->toBe($token);
+    expect($array['success_url'])->toBe($this->url.'/success')
+        ->and($array['failure_url'])->toBe($this->url.'/failure')
+        ->and($array['cancel_url'])->toBe($this->url.'/cancel')
+        ->and($array['status_url'])->toBe($this->url.'/status')
+        ->and($array['mapping_scheme'])->toBe('default')
+        ->and($array['token'])->toBe('token');
 });

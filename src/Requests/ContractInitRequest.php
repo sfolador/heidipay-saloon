@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Sfolador\HeidiPaySaloon\Requests;
 
 use Saloon\Contracts\Body\HasBody;
+use Saloon\Contracts\Response;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
-use Sfolador\HeidiPaySaloon\Models\Product;
+use Sfolador\HeidiPaySaloon\Dto\Response\ContractDto;
+use Sfolador\HeidiPaySaloon\Models\CreditInitProduct;
 
 class ContractInitRequest extends Request implements HasBody
 {
@@ -42,7 +44,12 @@ class ContractInitRequest extends Request implements HasBody
                 'mapping_scheme' => $this->dto->webhooks->mappingScheme,
                 'token' => $this->dto->webhooks->token,
             ],
-            'products' => array_map(fn (Product $product) => $product->toArray(), $this->dto->products),
+            'products' => array_map(fn (CreditInitProduct $product) => $product->toArray(), $this->dto->products),
         ];
+    }
+
+    public function createDtoFromResponse(Response $response): mixed
+    {
+        return ContractDto::fromResponse($response);
     }
 }

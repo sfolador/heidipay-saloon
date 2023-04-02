@@ -3,8 +3,8 @@
 use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
 use Sfolador\HeidiPaySaloon\Enum\AmountFormat;
 use Sfolador\HeidiPaySaloon\Models\Amount;
+use Sfolador\HeidiPaySaloon\Models\CreditInitProduct;
 use Sfolador\HeidiPaySaloon\Models\Customer;
-use Sfolador\HeidiPaySaloon\Models\Product;
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 use Sfolador\HeidiPaySaloon\Requests\ContractInitRequest;
 
@@ -21,7 +21,7 @@ beforeEach(function () {
         status: 'https://www.google.com',
         mappingScheme: 'default'
     );
-    $this->products = [new Product(
+    $this->products = [new CreditInitProduct(
         sku: null,
         name: '',
         quantity: 1,

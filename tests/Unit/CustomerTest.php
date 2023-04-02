@@ -2,73 +2,71 @@
 
 use Sfolador\HeidiPaySaloon\Models\Customer;
 
-it('has a firstname', function () {
-    $firstName = 'firstname';
-    $customer = new Customer(
-        email: '', title: '', firstname: $firstName, lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
-    );
+beforeEach(function () {
+    $this->firstName = 'firstname';
+    $this->lastName = 'lastname';
+    $this->email = 'example@example.com';
+    $this->title = 'mr.';
+    $this->dateOfBirth = '2020-02-02';
+    $this->contactNumber = '123456789';
+    $this->companyName = 'companyName';
+    $this->residence = 'residence';
 
-    expect($customer->firstname)->toBe($firstName);
+    $this->customer = new Customer(
+        email: $this->email, title: $this->title, firstname: $this->firstName, lastname: $this->lastName, dateOfBirth: $this->dateOfBirth, contactNumber: $this->contactNumber, companyName: $this->companyName, residence: $this->residence
+    );
+});
+
+it('has a firstname', function () {
+    expect($this->customer->firstname)->toBe($this->firstName);
 });
 
 it('has a lastname', function () {
-    $lastname = 'lastname';
-    $customer = new Customer(
-        email: '', title: '', firstname: '', lastname: $lastname, dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
-    );
-
-    expect($customer->lastname)->toBe($lastname);
+    expect($this->customer->lastname)->toBe($this->lastName);
 });
 
 it('has an email', function () {
-    $email = 'email@example.com';
-    $customer = new Customer(
-        email: $email, title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
-    );
-
-    expect($customer->email)->toBe($email);
+    expect($this->customer->email)->toBe($this->email);
 });
 
 it('can have a title', function () {
-    $title = 'mr.';
-    $customer = new Customer(
-        email: '', title: $title, firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
-    );
-
-    expect($customer->title)->toBe($title);
+    expect($this->customer->title)->toBe($this->title);
 });
 
 it('can have a date of birth', function () {
-    $dateOfBirth = '2020-02-02';
-    $customer = new Customer(
-        email: '', title: '', firstname: '', lastname: '', dateOfBirth: $dateOfBirth, contactNumber: '', companyName: '', residence: ''
-    );
-
-    expect($customer->dateOfBirth)->toBe($dateOfBirth);
+    expect($this->customer->dateOfBirth)->toBe($this->dateOfBirth);
 });
 
 it('can have a contact number', function () {
-    $contact = '+000000000000';
-    $customer = new Customer(
-        email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: $contact, companyName: '', residence: ''
-    );
-
-    expect($customer->contactNumber)->toBe($contact);
+    expect($this->customer->contactNumber)->toBe($this->contactNumber);
 });
 
 it('can have a company name', function () {
-    $companyName = 'company';
-    $customer = new Customer(
-        email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: $companyName, residence: ''
-    );
-
-    expect($customer->companyName)->toBe($companyName);
+    expect($this->customer->companyName)->toBe($this->companyName);
 });
+
 it('can have a residence', function () {
-    $residence = 'italy';
-    $customer = new Customer(
-        email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: $residence
+    expect($this->customer->residence)->toBe($this->residence);
+});
+
+it('can be instantiated statically', function () {
+    $customer = Customer::from(
+        email: $this->email,
+        title: $this->title,
+        firstname: $this->firstName,
+        lastname: $this->lastName,
+        dateOfBirth: $this->dateOfBirth,
+        contactNumber: $this->contactNumber,
+        companyName: $this->companyName,
+        residence: $this->residence
     );
 
-    expect($customer->residence)->toBe($residence);
+    expect($customer->firstname)->toBe($this->firstName)
+        ->and($customer->lastname)->toBe($this->lastName)
+        ->and($customer->email)->toBe($this->email)
+        ->and($customer->title)->toBe($this->title)
+        ->and($customer->dateOfBirth)->toBe($this->dateOfBirth)
+        ->and($customer->contactNumber)->toBe($this->contactNumber)
+        ->and($customer->companyName)->toBe($this->companyName)
+        ->and($customer->residence)->toBe($this->residence);
 });

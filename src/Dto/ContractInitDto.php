@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Sfolador\HeidiPaySaloon\Dto;
 
 use Sfolador\HeidiPaySaloon\Models\Amount;
+use Sfolador\HeidiPaySaloon\Models\CreditInitProduct;
 use Sfolador\HeidiPaySaloon\Models\Customer;
-use Sfolador\HeidiPaySaloon\Models\Product;
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 
 class ContractInitDto
 {
     /**
-     * @param  array<int,Product>  $products
+     * @param  array<int,CreditInitProduct>  $products
      */
     public function __construct(
         readonly public Amount $amount,
@@ -23,7 +23,7 @@ class ContractInitDto
     }
 
     /**
-     * @param  array<int,Product>  $products
+     * @param  array<int,CreditInitProduct>  $products
      */
     public static function from(Amount $amount, Customer $customer, Webhooks $webhooks, array $products): self
     {

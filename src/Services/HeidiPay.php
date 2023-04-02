@@ -9,8 +9,10 @@ use Saloon\Exceptions\PendingRequestException;
 use Sfolador\HeidiPaySaloon\Connector\HeidiPayConnector;
 use Sfolador\HeidiPaySaloon\Dto\AuthDto;
 use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
+use Sfolador\HeidiPaySaloon\Dto\PaymentLinkDto;
 use Sfolador\HeidiPaySaloon\Requests\AuthRequest;
 use Sfolador\HeidiPaySaloon\Requests\ContractInitRequest;
+use Sfolador\HeidiPaySaloon\Requests\PaymentLinkRequest;
 
 class HeidiPay
 {
@@ -44,8 +46,6 @@ class HeidiPay
      */
     public function auth(AuthDto $authDto): mixed
     {
-        $request = new AuthRequest($authDto);
-
         $response = $this->connector->send(new AuthRequest($authDto));
 
         /* @phpstan-ignore-next-line */
@@ -55,14 +55,22 @@ class HeidiPay
     }
 
     /**
-     * @return Response
-     *
      * @throws ReflectionException
      * @throws InvalidResponseClassException
      * @throws PendingRequestException
      */
-    public function contract(ContractInitDto $contractInitDto)
+    public function contract(ContractInitDto $contractInitDto): Response
     {
         return $this->connector->send(new ContractInitRequest($contractInitDto));
+    }
+
+    /**
+     * @throws InvalidResponseClassException
+     * @throws PendingRequestException
+     * @throws ReflectionException
+     */
+    public function paymentLink(PaymentLinkDto $paymentLinkDto): Response
+    {
+        return $this->connector->send(new PaymentLinkRequest($paymentLinkDto));
     }
 }
