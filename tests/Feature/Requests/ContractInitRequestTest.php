@@ -7,6 +7,7 @@ use Sfolador\HeidiPaySaloon\Models\CreditInitProduct;
 use Sfolador\HeidiPaySaloon\Models\Customer;
 use Sfolador\HeidiPaySaloon\Models\Webhooks;
 use Sfolador\HeidiPaySaloon\Requests\ContractInitRequest;
+use Sfolador\HeidiPaySaloon\Tests\TestHelpers\TestResponse;
 
 beforeEach(function () {
     $this->amount = new Amount(100, 'BRL', AmountFormat::MINOR_UNIT);
@@ -34,27 +35,7 @@ beforeEach(function () {
     $this->contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
 });
 
-/**
- * return return [
-'amount' => $this->dto->amount->toArray(),
-'amount_format' => $this->dto->amount->amountFormat,
-'customer_details' => $this->dto->customer->toArray(),
-'redirect_urls' => [
-'success_url' => $this->dto->webhooks->success,
-'failure_url' => $this->dto->webhooks->failure,
-'cancel_url' => $this->dto->webhooks->cancel,
-],
-'webhooks' => [
-'status_url' => $this->dto->webhooks->status,
-'mapping_scheme' => $this->dto->webhooks->mappingScheme,
-'token' => $this->dto->webhooks->token,
-],
-'products' => array_map(fn (Product $product) => $product->toArray(), $this->dto->products),
-];
- */
 it('has a  body', function () {
-    $merchantKey = 'merchant-key';
-
     $contractInitRequest = new ContractInitRequest($this->contractInitDto);
 
     $body = $contractInitRequest->body()->all();
@@ -77,4 +58,21 @@ it('has a an endpoint', function () {
     $contractInitRequest = new ContractInitRequest($this->contractInitDto);
 
     expect($contractInitRequest->resolveEndpoint())->toBe('/api/checkout/v1/init/');
+});
+
+it('creates a dto from a response', function () {
+    $contractInitRequest = new ContractInitRequest($this->contractInitDto);
+
+    $decodedJson = [
+        'action' => 'action',
+        'redirect_url' => 'redirect_url',
+        'external_contract_uuid' => 'external_contract_uuid',
+        'application_uuid' => 'application_uuid',
+    ];
+
+    $response = TestResponse::make($decodedJson);
+
+    $contactDto = $contractInitRequest->createDtoFromResponse($response);
+
+    expect($contactDto->action)->toBe($decodedJson['action']);
 });

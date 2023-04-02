@@ -3,6 +3,7 @@
 use Sfolador\HeidiPaySaloon\Dto\PaymentLinkDto;
 use Sfolador\HeidiPaySaloon\Models\PaymentLinkProduct;
 use Sfolador\HeidiPaySaloon\Requests\PaymentLinkRequest;
+use Sfolador\HeidiPaySaloon\Tests\TestHelpers\TestResponse;
 
 beforeEach(function () {
     $this->products = [new PaymentLinkProduct(
@@ -37,4 +38,18 @@ it('has a an endpoint', function () {
     $paymentLinkRequest = new PaymentLinkRequest($this->paymentLinkDto);
 
     expect($paymentLinkRequest->resolveEndpoint())->toBe('/api/checkout/v1/payment-link/');
+});
+
+it('creates a dto from a response', function () {
+    $paymentLinkRequest = new PaymentLinkRequest($this->paymentLinkDto);
+
+    $decodedJson = [
+        'payment_link_url' => 'payment_link_url',
+    ];
+
+    $response = TestResponse::make($decodedJson);
+
+    $paymentlinkDto = $paymentLinkRequest->createDtoFromResponse($response);
+
+    expect($paymentlinkDto->payment_link_url)->toBe($decodedJson['payment_link_url']);
 });
