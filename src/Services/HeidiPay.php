@@ -39,7 +39,7 @@ class HeidiPay
         return self::$instance;
     }
 
-    public function injectConnector(HeidiPayConnector $connector)
+    public function injectConnector(HeidiPayConnector $connector): void
     {
         $this->connector = $connector;
     }
