@@ -105,3 +105,13 @@ $contractResponseDto = $contractResponse->dtoOrFail();
 ```
 
 
+## Credits
+
+- [sfolador](https://github.com/sfolador)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+
