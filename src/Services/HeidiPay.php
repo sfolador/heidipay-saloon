@@ -39,6 +39,11 @@ class HeidiPay
         return self::$instance;
     }
 
+    public function injectConnector(HeidiPayConnector $connector)
+    {
+        $this->connector = $connector;
+    }
+
     /**
      * @throws InvalidResponseClassException
      * @throws PendingRequestException
