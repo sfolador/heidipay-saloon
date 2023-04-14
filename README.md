@@ -102,6 +102,14 @@ $contractResponse = $heidipay->contract($contractInitDto);
 // the response is a `Response` object, you can get the DTO using the `dtoOrFail` method
 $contractResponseDto = $contractResponse->dtoOrFail();
 
+// $contractResponseDto will be a ContractDto object and have these properties:
+
+$contractResponseDto->action;
+$contractResponseDto->redirectUrl; // the url to redirect the user to complete the contract
+$contractResponseDto->external_contract_uuid // the contract uuid
+$contractResponseDto->application_uuid // the application uuid
+
+
 ```
 
 
