@@ -45,17 +45,18 @@ composer require sfolador/heidipay-saloon
 ### Auth
 
 Before calling any of the API endpoint it is necessary to authenticate with the HeidiPay API and obtain a token.
-Please read the official documentation at [HeidiPay API](https://heidipay.com) for more information.
+Please read the official documentation at [HeidiPay API](https://docs.heidipay.com/reference/getting-started-with-your-api) for more information.
 
 ```php
 
 use Sfolador\HeidiPaySaloon\Services\HeidiPay;
+use Sfolador\HeidiPaySaloon\Dto\AuthDto;
 
 $apiUrl = 'https://sandbox-origination.heidipay.com';
 
 //for production use $apiUrl = 'https://api.heidipay.com'; 
 
-$heidipay = new HeidiPay(apiUrl: $apiUrl);
+$heidipay = HeidiPay::init(apiUrl: $apiUrl);
 
 $authDto = AuthDto::from(merchantKey: "merchant-key"); // the merchant key is provided by HeidiPay
 $token = $heidipay->auth($authDto);
@@ -64,15 +65,21 @@ $token = $heidipay->auth($authDto);
 
 ### Contract init
 
-Initialize a new contract for a user. Please read the official documentation at [HeidiPay API](https://heidipay.com) for more information.
+Initialize a new contract for a user. Please read the official documentation at [HeidiPay API](https://docs.heidipay.com/reference/getting-started-with-your-api) for more information.
 
 ```php
 
 use Sfolador\HeidiPaySaloon\Services\HeidiPay;
+use Sfolador\HeidiPaySaloon\Models\Amount;
+use Sfolador\HeidiPaySaloon\Models\Customer;
+use Sfolador\HeidiPaySaloon\Models\Webhooks;
+use Sfolador\HeidiPaySaloon\Models\CreditInitProduct;
+use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
 
-$heidipay = new HeidiPay(apiUrl: $apiUrl);
 
- $amount = new Amount(100, 'BRL', AmountFormat::MINOR_UNIT);
+$heidipay = HeidiPay::init(apiUrl: $apiUrl);
+
+ $amount = new Amount('BRL',100, AmountFormat::MINOR_UNIT);
  $customer = new Customer(
         email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
  );
@@ -95,7 +102,7 @@ $products = [new CreditInitProduct(
     description: null
 )];
 
-$contractInitDto = new ContractInitDto($this->amount, $this->customer, $this->webhooks, $this->products);
+$contractInitDto = new ContractInitDto($amount, $customer, $webhooks, $products);
 
 $contractResponse = $heidipay->contract($contractInitDto);
 
