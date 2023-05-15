@@ -79,24 +79,27 @@ use Sfolador\HeidiPaySaloon\Dto\ContractInitDto;
 
 $heidipay = HeidiPay::init(apiUrl: $apiUrl);
 
- $amount = new Amount('BRL',100, AmountFormat::MINOR_UNIT);
+ $amount = new Amount( currency: 'BRL',amount: 100, amountFormat: AmountFormat::DECIMAL);
  $customer = new Customer(
-        email: '', title: '', firstname: '', lastname: '', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
+        email: 'customer@example.com', title: '', firstname: 'Test', lastname: 'Test', dateOfBirth: '', contactNumber: '', companyName: '', residence: ''
  );
 
 $webhooks = new Webhooks(
-    success: 'https://www.example.com',
-    failure: 'https://www.example.com',
-    cancel: 'https://www.example.com',
-    status: 'https://www.example.com',
+    success: 'https://www.example.com/success',
+    failure: 'https://www.example.com/failure',
+    cancel: 'https://www.example.com/cancel',
+    status: 'https://www.example.com/status',
     mappingScheme: 'default'
 );
 
+// remember to set a token for the webhooks and save it in your database to verify the webhooks later
+    $webhooks->setToken(str()->random(32));
+
 $products = [new CreditInitProduct(
     sku: null,
-    name: '',
+    name: 'Test',
     quantity: 1,
-    price: '1.00',
+    price: '100',
     imageThumbnailUrl: null,
     imageOriginalUrl: null,
     description: null
